@@ -1,0 +1,17 @@
+/*
+Theme Name:   PornQuebec
+Theme URI:    https://pornquebec.ca
+Description:  Child theme of Astra for PornQuebec.ca. Adds the brand design system (navy, royal blue and magenta; Poppins with a Lobster Two accent), WooCommerce product and category cards with hover image swap, single product page, blog styling, a built-in contact form and ready-to-import Elementor page templates.
+Author:       Htech Digital Concept
+Author URI:   https://www.htechdigitalconcept.site
+Template:     astra
+Version:      1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+License:      GNU General Public License v2 or later
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  pornquebec
+Tags:         e-commerce, blog, custom-colors, translation-ready
+*/
+
+/* All styling lives in assets/css/pornquebec.css and is loaded from functions.php. */

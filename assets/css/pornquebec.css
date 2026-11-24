@@ -1,0 +1,1030 @@
+/* =====================================================================
+   PORNQUEBEC — GLOBAL CSS
+   Paste into: Appearance > Customize > Additional CSS (Astra)
+   One file styles: product cards, category cards, shop/archive grids,
+   the featured-product block and the helper classes used by the
+   Elementor homepage template.
+
+   EASY ADJUSTMENTS: change the variables in :root only.
+   ===================================================================== */
+
+
+:root{
+  /* brand colours */
+  --pq-navy:#00216A;
+  --pq-royal:#0058E6;
+  --pq-sky:#3992FD;
+  --pq-mag:#E0157E;
+  --pq-night:#050F33;
+  --pq-ink:#0B1226;
+  --pq-slate:#E0157E;
+  --pq-mist:#F3F6FC;
+  --pq-line:#DCE3F2;
+  --pq-buy:#E0157E;            /* Buy now / Buy product button */
+
+  /* shape + spacing */
+  --pq-radius:14px;            /* card corners */
+  --pq-radius-inner:10px;      /* image stage corners */
+  --pq-gap:26px;               /* space between cards */
+  --pq-card-pad:10px;
+
+  /* product image stage (behind each product photo) */
+  --pq-stage:linear-gradient(150deg,#00216A 0%,#0A3FB0 60%,#0058E6 100%);
+  --pq-img-fit:cover;          /* cover = image fills the complete stage */
+  --pq-img-size:100%;           /* product size inside the stage */
+  --pq-img-blend:normal;       /* use multiply for photos on white backgrounds (see option B) */
+
+  /* depth */
+  --pq-shadow:0 2px 10px rgba(0,33,106,.06);
+  --pq-shadow-hover:0 18px 40px rgba(0,33,106,.18);
+
+  /* type */
+  --pq-font:'Poppins',system-ui,sans-serif;
+  --pq-accent-font:'Lobster Two',cursive;
+}
+
+/* =====================================================================
+   1. GRID — every WooCommerce product / category list
+   Columns come from the shortcode's wrapper class: pq-cols-1/2/3/4/6.
+   Shop and archive pages default to 3.
+   ===================================================================== */
+.woocommerce ul.products,
+.woocommerce-page ul.products{
+  display:grid !important;
+  grid-template-columns:repeat(var(--pq-cols,3),minmax(0,1fr));
+  gap:var(--pq-gap);
+  margin:0 !important;
+  padding:0 !important;
+}
+.woocommerce ul.products::before,
+.woocommerce ul.products::after{display:none !important;content:none !important}
+
+.pq-cols-1{--pq-cols:1}
+.pq-cols-2{--pq-cols:2}
+.pq-cols-3{--pq-cols:3}
+.pq-cols-4{--pq-cols:4}
+.pq-cols-6{--pq-cols:6}
+
+@media (max-width:1024px){
+  .woocommerce ul.products{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+}
+@media (max-width:600px){
+  .woocommerce ul.products{grid-template-columns:minmax(0,1fr) !important}
+  .pq-cols-4 ul.products{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+}
+.pq-cols-1 ul.products{grid-template-columns:minmax(0,1fr) !important}
+
+/* =====================================================================
+   2. PRODUCT CARD
+   ===================================================================== */
+.woocommerce ul.products li.product{
+  position:relative;
+  display:flex !important;
+  flex-direction:column;
+  float:none !important;
+  width:auto !important;
+  margin:0 !important;
+  padding:var(--pq-card-pad) !important;
+  background:#fff;
+  border:1px solid var(--pq-line);
+  border-radius:var(--pq-radius);
+  box-shadow:var(--pq-shadow);
+  overflow:hidden;
+  font-family:var(--pq-font);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.woocommerce ul.products li.product:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--pq-shadow-hover);
+}
+
+/* image stage (Astra wraps the image in .astra-shop-thumbnail-wrap) */
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  aspect-ratio:1/1;
+  margin:0 0 10px !important;
+  background:var(--pq-stage);
+  border-radius:var(--pq-radius-inner);
+  overflow:hidden;
+}
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap > a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+}
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap img,
+.woocommerce ul.products li.product > a.woocommerce-LoopProduct-link > img{
+  display:block;
+  width:100% !important;
+  height:100% !important;
+  max-width:none;
+  object-fit:cover;
+  object-position:center;
+  margin:0 !important;
+  mix-blend-mode:var(--pq-img-blend);
+  filter:drop-shadow(0 14px 16px rgba(0,8,44,.5));
+  transition:transform .4s ease;
+}
+.woocommerce ul.products li.product:hover .astra-shop-thumbnail-wrap img{transform:scale(1.06)}
+
+/* text area: title / category on top, price left, button right */
+.woocommerce ul.products li.product .astra-shop-summary-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:2px 12px;
+  padding:0 10px 10px;
+  text-align:left;
+  flex-grow:1;
+}
+.woocommerce ul.products li.product .ast-loop-product__link{order:1;width:100%}
+.woocommerce ul.products li.product .woocommerce-loop-product__title{
+  margin:0;
+  padding:0;
+  font:500 18px/26px var(--pq-font);
+  color:var(--pq-navy);
+}
+.woocommerce ul.products li.product .ast-woo-product-category{
+  order:2;
+  width:100%;
+  margin:0;
+  font:300 13px/20px var(--pq-font);
+  color:var(--pq-slate);
+  text-transform:none;
+  letter-spacing:0;
+}
+.woocommerce ul.products li.product .star-rating{order:2}
+.woocommerce ul.products li.product .price{
+  order:3;
+  margin:14px 0 0;
+  font:700 20px/28px var(--pq-font);
+  color:var(--pq-navy);
+}
+.woocommerce ul.products li.product .price del{font-weight:300;font-size:14px; color:var(--pq-slate);opacity:1}
+.woocommerce ul.products li.product .price ins{text-decoration:none;background:transparent}
+
+/* buttons (Buy now / Add to cart / external product) */
+.woocommerce ul.products li.product .astra-shop-summary-wrap > .add_to_cart_button{
+  order:4;
+  margin:14px 0 0 !important;
+  padding:11px 26px !important;
+  background:var(--pq-buy) !important;
+  color:#fff !important;
+  border:0 !important;
+  border-radius:999px !important;
+  font:500 14px/1.2 var(--pq-font) !important;
+  box-shadow:none !important;
+  transition:background .2s ease,transform .2s ease;
+}
+.woocommerce ul.products li.product .astra-shop-summary-wrap > .add_to_cart_button:hover{
+  background:var(--pq-navy) !important;
+  transform:translateY(-2px);
+}
+.woocommerce ul.products li.product .added_to_cart{display:none}
+
+/* sale badge */
+.woocommerce span.onsale{
+  top:14px;
+  right:14px;
+  left:auto;
+  min-width:0;
+  min-height:0;
+  padding:6px 12px;
+  background:var(--pq-mag);
+  color:#fff;
+  border-radius:999px;
+  font:600 10px/1 var(--pq-font);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+/* "Bestseller" badge — add class pq-best to the shortcode widget */
+.pq-best ul.products li.product::before{
+  content:"BESTSELLER";
+  position:absolute;
+  top:22px;
+  left:22px;
+  z-index:3;
+  padding:6px 12px;
+  background:var(--pq-mag);
+  color:#fff;
+  border-radius:999px;
+  font:600 10px/1 var(--pq-font);
+  letter-spacing:.08em;
+}
+/* "New" badge — add class pq-new to the shortcode widget */
+.pq-new ul.products li.product::before{
+  content:"NEW";
+  position:absolute;
+  top:22px;
+  left:22px;
+  z-index:3;
+  padding:6px 12px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.45);
+  color:#fff;
+  border-radius:999px;
+  font:600 10px/1 var(--pq-font);
+  letter-spacing:.08em;
+}
+
+/* compact cards (4 and 6 columns) */
+.pq-cols-4 ul.products li.product .woocommerce-loop-product__title,
+.pq-cols-6 ul.products li.product .woocommerce-loop-product__title{font-size:16px;line-height:24px}
+.pq-cols-4 ul.products li.product .price,
+.pq-cols-6 ul.products li.product .price{font-size:18px}
+.pq-cols-4 ul.products li.product .button,
+.pq-cols-6 ul.products li.product .button{padding:10px 20px !important;font-size:13px !important}
+
+/* =====================================================================
+   3. CATEGORY CARDS   [product_categories]
+   The image fills the card; the name + "Shop now" sit on a glass bar
+   inside the image, at the bottom.
+   ADJUST: --pq-cat-ratio (image shape), --pq-cat-glass (bar colour/opacity)
+   ===================================================================== */
+.woocommerce ul.products li.product-category{
+  --pq-cat-ratio:3/3;                       /* same square ratio as before */
+  --pq-cat-glass:rgba(0,33,106,.70);        /* bar background, 70% opacity */
+  --pq-cat-glass-hover:rgba(0,33,106,.88);
+  padding:var(--pq-card-pad) !important;
+}
+.woocommerce ul.products li.product-category > a{
+  position:relative;
+  display:block;
+  text-decoration:none;
+  border-radius:var(--pq-radius-inner);
+  overflow:hidden;
+}
+.woocommerce ul.products li.product-category > a img{
+  display:block;
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:var(--pq-cat-ratio) !important;
+  margin:0 !important;
+  padding:0% 0%;
+  background:var(--pq-stage);
+  border-radius:var(--pq-radius-inner);
+  object-fit:var(--pq-img-fit);
+  box-sizing:border-box;
+  filter:drop-shadow(0 14px 16px rgba(0,8,44,.5));
+  transition:transform .4s ease;
+}
+.woocommerce ul.products li.product-category:hover > a img{transform:scale(1.04)}
+
+/* glass bar on the image */
+.woocommerce ul.products li.product-category .woocommerce-loop-category__title{
+  position:absolute;
+  left:12px;
+  right:12px;
+  bottom:12px;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0;
+  padding:12px 16px;
+  background:var(--pq-cat-glass);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:12px;
+  font:500 17px/24px var(--pq-font);
+  color:#fff;
+  transition:background .25s ease;
+}
+.woocommerce ul.products li.product-category:hover .woocommerce-loop-category__title{
+  background:var(--pq-cat-glass-hover);
+}
+.woocommerce ul.products li.product-category .woocommerce-loop-category__title::after{
+  content:"Shop now  \2192";
+  font:500 13px/1 var(--pq-font);
+  color:#fff;
+  white-space:nowrap;
+  opacity:.9;
+}
+/* hide the product count (Astra prints <mark class="count">) */
+.woocommerce ul.products li.product-category .count,
+.woocommerce ul.products li.product-category mark,
+.woocommerce ul.products li.product-category [class*="count"]{
+  display:none !important;
+}
+@media (max-width:600px){
+  .woocommerce ul.products li.product-category .woocommerce-loop-category__title{font-size:15px;padding:10px 12px}
+}
+
+/* =====================================================================
+   4. FEATURED PRODUCT BLOCK   [product id="..."]  + class pq-spot
+   ===================================================================== */
+.pq-spot ul.products li.product{
+  flex-direction:row;
+  align-items:center;
+  gap:56px;
+  padding:0 !important;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  overflow:visible;
+}
+.pq-spot ul.products li.product:hover{transform:none;box-shadow:none}
+.pq-spot ul.products li.product::before{
+  content:"FEATURED SET";
+  position:absolute;
+  top:18px;
+  left:18px;
+  z-index:3;
+  padding:6px 12px;
+  background:var(--pq-mag);
+  color:#fff;
+  border-radius:999px;
+  font:600 10px/1 var(--pq-font);
+  letter-spacing:.08em;
+}
+.pq-spot .astra-shop-thumbnail-wrap{
+  flex:0 0 46%;
+  margin:0 !important;
+  border-radius:var(--pq-radius);
+  box-shadow:0 18px 44px rgba(0,33,106,.2);
+}
+.pq-spot .astra-shop-summary-wrap{flex:1;display:block;padding:0}
+.pq-spot .woocommerce-loop-product__title{font:700 34px/42px var(--pq-font);letter-spacing:-.5px}
+.pq-spot .ast-woo-product-category{margin-top:6px}
+.pq-spot .price{display:block;margin:20px 0 0;font-size:30px;line-height:38px}
+.pq-spot .button{margin-top:24px !important;padding:16px 32px !important}
+@media (max-width:800px){
+  .pq-spot ul.products li.product{flex-direction:column;gap:24px;align-items:stretch}
+  .pq-spot .astra-shop-thumbnail-wrap{flex-basis:auto;width:100%}
+  .pq-spot .woocommerce-loop-product__title{font-size:28px;line-height:34px}
+}
+
+/* =====================================================================
+   5. OPTIONAL B — product photos with WHITE backgrounds
+   Uncomment so white photos sit cleanly on a light stage.
+   ===================================================================== */
+/*
+:root{
+  --pq-stage:#F3F6FC;
+  --pq-img-blend:multiply;
+}
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap img{filter:none}
+*/
+
+/* =====================================================================
+   6. HELPER CLASSES USED BY THE ELEMENTOR TEMPLATE
+   ===================================================================== */
+.pq-lob{font-family:var(--pq-accent-font);font-style:italic;font-weight:700}
+
+.pq-card{transition:transform .2s ease,box-shadow .2s ease}
+.pq-card:hover{transform:translateY(-6px);box-shadow:var(--pq-shadow-hover) !important}
+.pq-zoom img{transition:transform .4s ease;filter:drop-shadow(0 14px 16px rgba(0,8,44,.5))}
+.pq-card:hover .pq-zoom img{transform:scale(1.06)}
+.pq-img-shadow img{filter:drop-shadow(0 30px 30px rgba(0,8,44,.55))}
+.pq-stage{aspect-ratio:1/1;overflow:hidden}
+.pq-stage43{aspect-ratio:4/3;overflow:hidden}
+.pq-glass{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+
+.pq-badge{display:inline-block;background:var(--pq-mag);color:#fff;font:600 10px/1 var(--pq-font);letter-spacing:.08em;padding:6px 12px;border-radius:999px}
+.pq-chip{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);color:#fff;font:500 11px/1 var(--pq-font);padding:6px 12px;border-radius:999px}
+.pq-pill18{display:inline-block;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;font:500 12px/1 var(--pq-font);letter-spacing:.04em;padding:8px 14px;border-radius:999px}
+
+.pq-btn .elementor-button{transition:transform .2s ease,background .2s ease,color .2s ease}
+.pq-btn .elementor-button:hover{transform:translateY(-2px)}
+.pq-nav .elementor-icon-list-item a{transition:color .2s}
+
+.pq-lang a{display:inline-block;font:500 12px/1 var(--pq-font);color:#fff;padding:5px 12px;border-radius:999px;text-decoration:none;margin-left:4px}
+.pq-lang a.on{background:#fff;color:var(--pq-navy);font-weight:600}
+
+.pq-pay span{display:inline-block;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:6px 12px;margin:0 8px 8px 0;font:500 12px/1 var(--pq-font);color:rgba(255,255,255,.88)}
+
+.pq-form{display:flex;gap:10px;max-width:380px}
+.pq-form input{flex:1;min-width:0;min-height:48px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);padding:0 20px;font:300 14px var(--pq-font);color:#fff}
+.pq-form input::placeholder{color:rgba(255,255,255,.7)}
+.pq-form input:focus{outline:none;border-color:var(--pq-royal)}
+.pq-form button{min-height:48px;border:0;border-radius:999px;background:var(--pq-royal);color:#fff;padding:0 24px;font:500 14px var(--pq-font);cursor:pointer;transition:background .2s}
+.pq-form button:hover{background:var(--pq-sky)}
+
+@media (max-width:1024px){.pq-hide-t{display:none !important}}
+@media (max-width:767px){.pq-hide-m{display:none !important}}
+
+
+/* =====================================================================
+   7. HOVER IMAGE SWAP
+   - Main image always fills the image stage.
+   - Second image fades in only when a .pq-hover-img actually exists.
+   - Products without a second image keep their first image on hover.
+   ===================================================================== */
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap{
+  position:relative;
+}
+
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap > a{
+  position:relative;
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+/* The second image sits directly over the first image. */
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap img.pq-hover-img{
+  position:absolute !important;
+  inset:0;
+  display:block;
+  width:100% !important;
+  height:100% !important;
+  max-width:none;
+  margin:0 !important;
+  object-fit:cover !important;
+  object-position:center;
+  opacity:0;
+  transform:none;
+  transition:opacity .35s ease, transform .4s ease;
+  pointer-events:none;
+  z-index:2;
+}
+
+/* Only switch images on cards that really have a second image. */
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap:has(img.pq-hover-img):hover img.pq-hover-img{
+  opacity:1;
+  transform:scale(1.04);
+}
+
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap:has(img.pq-hover-img):hover img:not(.pq-hover-img){
+  opacity:0;
+  transition:opacity .35s ease;
+}
+
+/* Keep the original image visible when no second image is present. */
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap:not(:has(img.pq-hover-img)) img{
+  opacity:1;
+}
+
+/* Hide only the Buy Product icon/button over the product image.
+   Keep the Buy Product button in the product details beside the price. */
+.woocommerce ul.products li.product .astra-shop-thumbnail-wrap a.product_type_external{
+  display:none !important;
+}
+
+/* Restore and style the Buy Product button beside the price. */
+.woocommerce ul.products li.product .astra-shop-summary-wrap > a.product_type_external{
+  display:inline-block !important;
+  order:4;
+  margin:14px 0 0 !important;
+  padding:11px 26px !important;
+  background:var(--pq-buy) !important;
+  color:#fff !important;
+  border:0 !important;
+  border-radius:999px !important;
+  font:500 14px/1.2 var(--pq-font) !important;
+  box-shadow:none !important;
+  transition:background .2s ease,transform .2s ease;
+}
+
+.woocommerce ul.products li.product .astra-shop-summary-wrap > a.product_type_external:hover{
+  background:var(--pq-navy) !important;
+  transform:translateY(-2px);
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================================
+   8. SINGLE PRODUCT PAGE  (added in v5 — nothing above was changed)
+   Gallery, title, price, Buy button, tabs, related products.
+   ===================================================================== */
+.single-product .woocommerce-breadcrumb{
+  margin:0 0 22px;
+  font:400 13px/1.4 var(--pq-font);
+  color:var(--pq-slate);
+}
+.single-product .woocommerce-breadcrumb a{color:var(--pq-royal);text-decoration:none;}
+.single-product .woocommerce-breadcrumb a:hover{color:var(--pq-mag);}
+
+/* two-column layout */
+.single-product div.product{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:48px;
+  align-items:start;
+}
+.single-product div.product .woocommerce-product-gallery,
+.single-product div.product div.images{width:100% !important;float:none !important;margin:0 !important;}
+.single-product div.product .summary,
+.single-product div.product div.summary{width:100% !important;float:none !important;margin:0 !important;}
+.single-product div.product .woocommerce-tabs,
+.single-product div.product .related,
+.single-product div.product .upsells{grid-column:1 / -1;}
+@media (max-width:921px){
+  .single-product div.product{grid-template-columns:1fr;gap:28px;}
+}
+
+/* gallery: same image stage as the product cards */
+.single-product .woocommerce-product-gallery__image{
+  background:var(--pq-stage);
+  border-radius:var(--pq-radius);
+  overflow:hidden;
+}
+.single-product .woocommerce-product-gallery__image img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:var(--pq-radius);
+  object-fit:var(--pq-img-fit);
+}
+.single-product .woocommerce-product-gallery .flex-control-thumbs{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:14px 0 0 !important;
+  padding:0;
+}
+.single-product .woocommerce-product-gallery .flex-control-thumbs li{width:auto !important;float:none !important;margin:0 !important;list-style:none;}
+.single-product .woocommerce-product-gallery .flex-control-thumbs img{
+  border-radius:var(--pq-radius-inner);
+  background:var(--pq-stage);
+  opacity:.65;
+  cursor:pointer;
+  transition:opacity .2s ease, box-shadow .2s ease;
+}
+.single-product .woocommerce-product-gallery .flex-control-thumbs img:hover,
+.single-product .woocommerce-product-gallery .flex-control-thumbs img.flex-active{
+  opacity:1;
+  box-shadow:0 0 0 2px var(--pq-royal);
+}
+.single-product .woocommerce-product-gallery__trigger{
+  background:#fff;
+  border-radius:50%;
+  box-shadow:var(--pq-shadow);
+}
+.single-product span.onsale{
+  min-height:0;min-width:0;
+  padding:7px 14px;
+  background:var(--pq-mag);
+  border-radius:999px;
+  font:600 12px/1 var(--pq-font);
+  color:#fff;
+}
+
+/* summary */
+.single-product .product_title{
+  margin:0 0 12px;
+  font:700 clamp(28px,3.4vw,40px)/1.15 var(--pq-font);
+  letter-spacing:-.6px;
+  color:var(--pq-navy);
+}
+.single-product .woocommerce-product-rating{margin:0 0 14px;}
+.single-product .star-rating{color:var(--pq-royal);}
+.single-product p.price,
+.single-product span.price{
+  margin:0 0 18px;
+  font:600 28px/1.2 var(--pq-font);
+  color:var(--pq-royal);
+}
+.single-product p.price del{font-size:18px;font-weight:400;color:var(--pq-slate);opacity:.7;}
+.single-product p.price ins{text-decoration:none;}
+.single-product .woocommerce-product-details__short-description{
+  margin:0 0 24px;
+  font:300 16px/1.75 var(--pq-font);
+  color:var(--pq-ink);
+}
+.single-product .woocommerce-product-details__short-description ul{margin:0 0 0 1.2em;}
+
+/* Buy button (external / affiliate product) */
+.single-product form.cart{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:14px;
+  margin:0 0 26px;
+}
+.single-product form.cart .single_add_to_cart_button,
+.single-product .product-type-external a.button{
+  min-height:54px;
+  padding:0 38px;
+  background:var(--pq-buy) !important;
+  border:0;
+  border-radius:999px;
+  font:600 16px/1 var(--pq-font);
+  color:#fff !important;
+  text-decoration:none;
+  transition:background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.single-product form.cart .single_add_to_cart_button:hover,
+.single-product .product-type-external a.button:hover{
+  background:var(--pq-navy) !important;
+  transform:translateY(-2px);
+  box-shadow:0 12px 26px rgba(0,33,106,.25);
+}
+.single-product form.cart .quantity input.qty{
+  min-height:54px;
+  border:1px solid var(--pq-line);
+  border-radius:12px;
+  font:500 16px/1 var(--pq-font);
+  color:var(--pq-navy);
+}
+
+/* meta */
+.single-product .product_meta{
+  padding-top:20px;
+  border-top:1px solid var(--pq-line);
+  font:400 14px/1.9 var(--pq-font);
+  color:var(--pq-slate);
+}
+.single-product .product_meta a{color:var(--pq-royal);text-decoration:none;}
+.single-product .product_meta a:hover{color:var(--pq-mag);}
+
+/* tabs */
+.single-product .woocommerce-tabs{margin-top:20px;}
+.single-product .woocommerce-tabs ul.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 -1px !important;
+  padding:0 !important;
+  border:0;
+}
+.single-product .woocommerce-tabs ul.tabs::before,
+.single-product .woocommerce-tabs ul.tabs::after{display:none !important;}
+.single-product .woocommerce-tabs ul.tabs li{
+  margin:0 !important;
+  padding:0;
+  background:var(--pq-mist);
+  border:1px solid var(--pq-line);
+  border-bottom:0;
+  border-radius:12px 12px 0 0;
+}
+.single-product .woocommerce-tabs ul.tabs li::before,
+.single-product .woocommerce-tabs ul.tabs li::after{display:none !important;}
+.single-product .woocommerce-tabs ul.tabs li a{
+  display:block;
+  padding:14px 24px;
+  font:500 15px/1 var(--pq-font);
+  color:var(--pq-slate);
+  text-decoration:none;
+}
+.single-product .woocommerce-tabs ul.tabs li.active{background:#fff;}
+.single-product .woocommerce-tabs ul.tabs li.active a{color:var(--pq-navy);font-weight:600;}
+.single-product .woocommerce-tabs .panel{
+  margin:0 !important;
+  padding:32px;
+  background:#fff;
+  border:1px solid var(--pq-line);
+  border-radius:0 var(--pq-radius) var(--pq-radius) var(--pq-radius);
+  font:300 16px/1.8 var(--pq-font);
+  color:var(--pq-ink);
+}
+.single-product .woocommerce-tabs .panel h2{
+  margin:0 0 14px;
+  font:600 22px/1.3 var(--pq-font);
+  color:var(--pq-navy);
+}
+.single-product .woocommerce-Reviews .comment-reply-title{font:600 20px/1.3 var(--pq-font);color:var(--pq-navy);}
+
+/* related + upsell headings (the cards themselves use sections 1–7) */
+.single-product .related.products > h2,
+.single-product .upsells.products > h2{
+  margin:36px 0 22px;
+  font:700 28px/1.2 var(--pq-font);
+  letter-spacing:-.4px;
+  color:var(--pq-navy);
+}
+
+
+/* =====================================================================
+   9. CONTACT FORM  (shortcode [pq_contact_form] in the theme)
+   ===================================================================== */
+.pq-contact form{display:grid;gap:16px;}
+.pq-contact .pq-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media (max-width:600px){.pq-contact .pq-row{grid-template-columns:1fr;}}
+.pq-contact label{display:block;margin:0 0 6px;font:500 14px/1.3 var(--pq-font);color:var(--pq-navy);}
+.pq-contact input[type="text"],
+.pq-contact input[type="email"],
+.pq-contact select,
+.pq-contact textarea{
+  width:100%;
+  padding:14px 16px;
+  background:#fff;
+  border:1px solid var(--pq-line);
+  border-radius:12px;
+  font:400 15px/1.5 var(--pq-font);
+  color:var(--pq-ink);
+  box-sizing:border-box;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.pq-contact textarea{min-height:150px;resize:vertical;}
+.pq-contact input:focus,
+.pq-contact select:focus,
+.pq-contact textarea:focus{border-color:var(--pq-royal);outline:0;box-shadow:0 0 0 3px rgba(0,88,230,.15);}
+.pq-contact .pq-consent{display:flex;gap:10px;align-items:flex-start;font:300 13px/1.6 var(--pq-font);color:var(--pq-slate);}
+.pq-contact .pq-consent input{margin-top:4px;}
+.pq-contact .pq-consent a{color:var(--pq-royal);}
+.pq-contact .pq-hp{position:absolute !important;left:-9999px;height:0;overflow:hidden;}
+.pq-contact button[type="submit"]{
+  min-height:52px;
+  padding:0 34px;
+  background:var(--pq-mag);
+  border:0;
+  border-radius:999px;
+  font:600 15px/1 var(--pq-font);
+  color:#fff;
+  cursor:pointer;
+  justify-self:start;
+  transition:background .2s ease, transform .2s ease;
+}
+.pq-contact button[type="submit"]:hover{background:var(--pq-navy);transform:translateY(-2px);}
+.pq-contact .pq-notice{padding:14px 18px;border-radius:12px;font:500 14px/1.5 var(--pq-font);}
+.pq-contact .pq-notice.ok{background:#E8F7EF;color:#0B6B3A;border:1px solid #BFE6D0;}
+.pq-contact .pq-notice.err{background:#FDECF4;color:#A0105B;border:1px solid #F5C2DB;}
+
+
+/* =====================================================================
+   PORNQUEBEC — BLOG CSS (append to the END of Additional CSS)
+   Styles only: blog archive, blog cards, single post.
+   Scoped to blog pages so shop, product and Elementor pages are untouched.
+   Uses the same variables as the main CSS.
+   ===================================================================== */
+
+/* ---------- 1. BLOG ARCHIVE: 3-column grid ---------- */
+.blog #primary #main,
+.archive:not(.woocommerce):not(.post-type-archive-product) #primary #main,
+.search:not(.woocommerce) #primary #main{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--pq-gap);
+}
+.blog .ast-archive-description,
+.archive:not(.woocommerce) .ast-archive-description,
+.blog .navigation,
+.archive:not(.woocommerce) .navigation,
+.blog .ast-pagination,
+.archive:not(.woocommerce) .ast-pagination{grid-column:1 / -1;}
+@media (max-width:921px){
+  .blog #primary #main,
+  .archive:not(.woocommerce):not(.post-type-archive-product) #primary #main,
+  .search:not(.woocommerce) #primary #main{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media (max-width:600px){
+  .blog #primary #main,
+  .archive:not(.woocommerce):not(.post-type-archive-product) #primary #main,
+  .search:not(.woocommerce) #primary #main{grid-template-columns:1fr;}
+}
+
+/* ---------- 2. BLOG CARD ---------- */
+.blog .ast-article-post,
+.archive:not(.woocommerce) .ast-article-post,
+.search:not(.woocommerce) .ast-article-post{
+  margin:0 !important;
+  padding:0 !important;
+  background:#fff;
+  border:1px solid var(--pq-line);
+  border-radius:var(--pq-radius);
+  box-shadow:var(--pq-shadow);
+  overflow:hidden;
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.blog .ast-article-post:hover,
+.archive:not(.woocommerce) .ast-article-post:hover,
+.search:not(.woocommerce) .ast-article-post:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--pq-shadow-hover);
+}
+.blog .ast-article-inner,
+.archive:not(.woocommerce) .ast-article-inner,
+.search:not(.woocommerce) .ast-article-inner{padding:0 !important;}
+.blog .ast-blog-featured-section,
+.archive:not(.woocommerce) .ast-blog-featured-section,
+.search:not(.woocommerce) .ast-blog-featured-section{margin:0 !important;}
+.blog .post-thumb-img-content,
+.archive:not(.woocommerce) .post-thumb-img-content,
+.search:not(.woocommerce) .post-thumb-img-content{display:block;overflow:hidden;background:var(--pq-stage);}
+.blog .post-thumb-img-content img,
+.archive:not(.woocommerce) .post-thumb-img-content img,
+.search:not(.woocommerce) .post-thumb-img-content img{
+  display:block;
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:16/10;
+  object-fit:cover;
+  transition:transform .5s ease;
+}
+.blog .ast-article-post:hover .post-thumb-img-content img,
+.archive:not(.woocommerce) .ast-article-post:hover .post-thumb-img-content img,
+.search:not(.woocommerce) .ast-article-post:hover .post-thumb-img-content img{transform:scale(1.05);}
+
+/* text area inside the card */
+.blog .post-content,
+.archive:not(.woocommerce) .post-content,
+.search:not(.woocommerce) .post-content{padding:22px 24px 26px;}
+.blog .ast-blog-single-element.ast-taxonomy-container a,
+.archive:not(.woocommerce) .ast-blog-single-element.ast-taxonomy-container a{
+  display:inline-block;
+  font:600 12px/1 var(--pq-font);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--pq-royal);
+  text-decoration:none;
+}
+.blog .entry-title,
+.archive:not(.woocommerce) .entry-title,
+.search:not(.woocommerce) .entry-title{
+  margin:10px 0 0;
+  font:600 21px/1.3 var(--pq-font);
+  letter-spacing:-.2px;
+}
+.blog .entry-title a,
+.archive:not(.woocommerce) .entry-title a,
+.search:not(.woocommerce) .entry-title a{color:var(--pq-navy);text-decoration:none;transition:color .2s ease;}
+.blog .entry-title a:hover,
+.archive:not(.woocommerce) .entry-title a:hover,
+.search:not(.woocommerce) .entry-title a:hover{color:var(--pq-royal);}
+.blog .entry-meta,
+.archive:not(.woocommerce) .entry-meta,
+.search:not(.woocommerce) .entry-meta{
+  margin-top:10px;
+  font:400 13px/1.4 var(--pq-font);
+  color:var(--pq-slate);
+}
+.blog .entry-meta a,
+.archive:not(.woocommerce) .entry-meta a{color:inherit;text-decoration:none;}
+.blog .ast-excerpt-container,
+.archive:not(.woocommerce) .ast-excerpt-container,
+.search:not(.woocommerce) .ast-excerpt-container{
+  margin-top:12px;
+  font:300 15px/1.7 var(--pq-font);
+  color:var(--pq-ink);
+}
+.blog .read-more a,
+.archive:not(.woocommerce) .read-more a,
+.search:not(.woocommerce) .read-more a{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:14px;
+  font:600 14px/1 var(--pq-font);
+  color:var(--pq-navy);
+  text-decoration:none;
+}
+.blog .read-more a:hover,
+.archive:not(.woocommerce) .read-more a:hover,
+.search:not(.woocommerce) .read-more a:hover{color:var(--pq-mag);}
+
+/* pagination */
+.blog .ast-pagination .page-numbers,
+.archive:not(.woocommerce) .ast-pagination .page-numbers{
+  min-width:42px;
+  padding:10px 14px;
+  border:1px solid var(--pq-line);
+  border-radius:10px;
+  font:500 14px/1 var(--pq-font);
+  color:var(--pq-navy);
+  background:#fff;
+}
+.blog .ast-pagination .page-numbers.current,
+.blog .ast-pagination .page-numbers:hover,
+.archive:not(.woocommerce) .ast-pagination .page-numbers.current,
+.archive:not(.woocommerce) .ast-pagination .page-numbers:hover{
+  background:var(--pq-navy);
+  border-color:var(--pq-navy);
+  color:#fff;
+}
+
+/* ---------- 3. SINGLE BLOG POST ---------- */
+.single-post .site-content .ast-container{max-width:1100px;}
+.single-post .ast-article-single{
+  padding:0 !important;
+  background:transparent;
+}
+.single-post .entry-header{margin-bottom:28px;}
+.single-post .ast-single-post-order .ast-taxonomy-container a,
+.single-post .cat-links a{
+  display:inline-block;
+  font:600 12px/1 var(--pq-font);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--pq-royal);
+  text-decoration:none;
+}
+.single-post .entry-title{
+  margin:12px 0 0;
+  font:700 clamp(30px,4.4vw,46px)/1.15 var(--pq-font);
+  letter-spacing:-.8px;
+  color:var(--pq-navy);
+}
+.single-post .entry-meta{
+  margin-top:16px;
+  font:400 14px/1.4 var(--pq-font);
+  color:var(--pq-slate);
+}
+.single-post .entry-meta a{color:inherit;text-decoration:none;}
+.single-post .post-thumb-img-content img,
+.single-post .ast-single-post-featured-section img{
+  width:100%;
+  height:auto;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:var(--pq-radius);
+  box-shadow:var(--pq-shadow);
+}
+.single-post .entry-content{
+  margin-top:32px;
+  font:300 17px/1.85 var(--pq-font);
+  color:var(--pq-ink);
+}
+.single-post .entry-content p{margin-bottom:1.4em;}
+.single-post .entry-content h2,
+.single-post .entry-content h3,
+.single-post .entry-content h4{
+  margin:1.8em 0 .6em;
+  font-family:var(--pq-font);
+  font-weight:600;
+  line-height:1.3;
+  color:var(--pq-navy);
+}
+.single-post .entry-content h2{font-size:28px;letter-spacing:-.4px;}
+.single-post .entry-content h3{font-size:22px;}
+.single-post .entry-content a{color:var(--pq-royal);text-decoration:underline;text-underline-offset:3px;}
+.single-post .entry-content a:hover{color:var(--pq-mag);}
+.single-post .entry-content img{border-radius:var(--pq-radius-inner);}
+.single-post .entry-content blockquote{
+  margin:1.8em 0;
+  padding:20px 24px;
+  background:var(--pq-mist);
+  border-left:4px solid var(--pq-mag);
+  border-radius:0 var(--pq-radius-inner) var(--pq-radius-inner) 0;
+  font:italic 500 19px/1.6 var(--pq-font);
+  color:var(--pq-navy);
+}
+.single-post .entry-content ul,
+.single-post .entry-content ol{margin:0 0 1.4em 1.3em;}
+.single-post .entry-content li{margin-bottom:.5em;}
+
+/* tags, author box, prev/next, comments */
+.single-post .post-tags a,
+.single-post .tags-links a{
+  display:inline-block;
+  margin:0 6px 6px 0;
+  padding:6px 14px;
+  background:var(--pq-mist);
+  border:1px solid var(--pq-line);
+  border-radius:999px;
+  font:500 13px/1.2 var(--pq-font);
+  color:var(--pq-navy);
+  text-decoration:none;
+}
+.single-post .post-tags a:hover,
+.single-post .tags-links a:hover{background:var(--pq-navy);border-color:var(--pq-navy);color:#fff;}
+.single-post .post-navigation{margin-top:40px;}
+.single-post .post-navigation a{
+  padding:18px 22px;
+  background:#fff;
+  border:1px solid var(--pq-line);
+  border-radius:var(--pq-radius);
+  font:500 15px/1.4 var(--pq-font);
+  color:var(--pq-navy);
+  transition:box-shadow .3s ease, transform .3s ease;
+}
+.single-post .post-navigation a:hover{box-shadow:var(--pq-shadow-hover);transform:translateY(-2px);}
+.single-post .comments-area{margin-top:48px;}
+.single-post .comment-reply-title{font:600 24px/1.3 var(--pq-font);color:var(--pq-navy);}
+.single-post .comment-form input[type="text"],
+.single-post .comment-form input[type="email"],
+.single-post .comment-form input[type="url"],
+.single-post .comment-form textarea{
+  border:1px solid var(--pq-line);
+  border-radius:10px;
+  background:#fff;
+  font:400 15px/1.5 var(--pq-font);
+}
+.single-post .comment-form input:focus,
+.single-post .comment-form textarea:focus{border-color:var(--pq-royal);outline:0;box-shadow:0 0 0 3px rgba(0,88,230,.15);}
+.single-post .comment-form .submit{
+  padding:14px 30px;
+  background:var(--pq-mag);
+  border:0;
+  border-radius:999px;
+  font:600 15px/1 var(--pq-font);
+  color:#fff;
+  cursor:pointer;
+}
+.single-post .comment-form .submit:hover{background:var(--pq-navy);}
+
+
+/* =====================================================================
+   10. LEGAL PAGE HELPERS (Privacy Policy, Terms)
+   ===================================================================== */
+.pq-legal ul{margin:12px 0 0 1.2em;padding:0}
+.pq-legal li{margin-bottom:8px}
+.pq-toc{position:sticky;top:24px}
+html{scroll-behavior:smooth}
+.pq-legal,[id^="sec-"]{scroll-margin-top:24px}
